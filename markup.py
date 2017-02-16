@@ -89,14 +89,12 @@ class IPythonNB(BaseReader):
             else:
                 # Content already decoded
                 content = '<body>{0}</body>'.format(content)
-            parser.feed(content)
-            parser.close()
-            content = parser.body
             if ('IPYNB_USE_META_SUMMARY' in self.settings.keys() and \
               self.settings['IPYNB_USE_META_SUMMARY'] == False) or \
               'IPYNB_USE_META_SUMMARY' not in self.settings.keys():
-                metadata['summary'] = parser.summary
+                metadata['summary'] = content
 
+        metadata['summary'] = content
         ignore_css = True if 'IPYNB_IGNORE_CSS' in self.settings.keys() else False
         content = fix_css(content, info, ignore_css=ignore_css)
         return content, metadata
