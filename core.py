@@ -78,6 +78,8 @@ def get_html_from_filepath(filepath):
 
     if BeautifulSoup:
         soup = BeautifulSoup(content, 'html.parser')
+        for i in soup.findAll('div', {'class': 'prompt'}):
+            i.extract()
         for i in soup.findAll('div', {'class': 'input'}):
             if i.findChildren()[1].find(text='#ignore') is not None:
                 i.extract()
